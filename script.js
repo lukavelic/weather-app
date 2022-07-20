@@ -3,6 +3,23 @@ class Weather {
         this.location = {}
         this.weatherData = {}
     }
+    initalSetup = () => {
+        const obj = this;
+        const searchButton = document.querySelector('#search-button');
+        const searchBox = document.querySelector('#search-box');
+        searchButton.addEventListener('click', this.getInput);
+        searchBox.addEventListener('keypress', function(e) {
+            if(e.key === 'Enter') {
+                obj.getInput();
+            };
+        });
+    };
+    getInput = () => {
+        const searchBox = document.querySelector('#search-box');
+        this.geocode(searchBox.value);
+        searchBox.value = '';
+
+    };
     geocode = (input) => {
         const apiKey = 'f8f7a86acb216286bdcaa84ea257f83c';
         const resultLimit = 1;
@@ -41,7 +58,9 @@ class Weather {
 
         apiCall();
     };
+    displayData = () => {
+    };
 };
 
 const weatherFunc = new Weather;
-weatherFunc.geocode('London');
+weatherFunc.initalSetup();
