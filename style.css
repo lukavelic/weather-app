@@ -1,0 +1,151 @@
+:root {
+    --border-radius: 5px;
+    --search-width: clamp(300px, 400px, 30vw);
+    --search-bar-height: 24px;
+
+    --font-weight-bold: 600;
+    --font-weight-light: 400;
+
+    /* Color palette */
+    --background-one: #EDEEEB;
+    --background-two: #DAE2E4;
+    --background-three: #C3D2D9;
+    --background-four: #A9BFC8;
+    --background-five: #82979D;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 12px;
+    background-color: var(--background-one);
+    background-image: url(./dominik-schroder-FIKD9t5_5zQ-unsplash.jpg);
+    background-size: 100vw;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-template-rows: 120px 1fr;
+    gap: 12px;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+    /* margin: 12px; */
+    padding: 5px 5px 5px 12px;
+    width: var(--search-width);
+    border-radius: var(--border-radius);
+    background-color: var(--background-two);
+    font-size: 0.8rem;
+    font-weight: var(--font-weight-bold);
+}
+
+    .search {
+        display: flex;
+        align-items: center;
+        padding-top: 5px;
+    }
+
+    .search input[type=search] {
+        border: none;
+        padding: 0 0 0 5px;
+        width: 90%;
+        height: 24px;
+        height: var(--search-bar-height);
+        border-radius: var(--border-radius);
+        background-color: var(--background-one);
+        font-weight: var(--font-weight-bold);
+
+    }
+
+    .search input[type=search]:focus {
+        outline: none;
+        /* background-color: var(--background-four); */
+        border-radius: var(--border-radius);
+    }
+
+    .search button {
+        align-items: center;
+        border-style: none;
+        background-color: transparent;
+        padding: 0 0 0 5px;
+    }
+
+        .search button svg {
+            display: flex;
+            align-items: center;
+            width: 20px;
+            height: 20px;
+            color: var(--background-one);
+        }
+
+        .search button:hover {
+            cursor: pointer;
+        }
+
+    .results {
+        width: 90%;
+        margin-top: 5px;
+        background-color: var(--background-one);
+        border-radius: var(--border-radius);
+        transition: height 300ms ease-out;
+        
+    }
+
+        .result{
+            display: flex;
+            align-items: center;
+            padding: 0 0 0 5px;
+            height: 24px;
+        }
+
+        .result.name:hover {
+            cursor: pointer;
+            background-color: var(--background-one);
+            border-radius: var(--border-radius);
+            outline: var(--background-two) solid 2px;
+
+        }
+
+.weather-container {
+    grid-column: 2;
+    margin: 0;
+    padding: 5px 12px 12px 12px;
+    background-color: var(--background-two);
+    border-radius: var(--border-radius);
+}
+
+    .current-weather {
+        display: flex;
+        flex-direction: row;
+        height: 100%;
+        font-size: 3rem;
+        font-weight: var(--font-weight-bold);
+        /* align-items: center; */
+    }
+        .location-name {
+            width: 100%;
+        }
+
+        .weather-block {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 70px 1fr;
+        }
+            .current-weather-icon img {
+                height: 100px;
+                margin-top: -18px;
+            }
+
+            .temperature {
+                font-size: 3rem;
+            }
+
+            .weather-description {
+                font-size: 2rem;
+                grid-column: 2;
+                text-align: right;
+            }

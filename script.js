@@ -29,24 +29,31 @@ class Weather {
     };
     
     displayResults = () => {
-        const resultsDiv = document.querySelector('#results');
+        const resultsDiv = document.querySelector('.results');
         resultsDiv.innerHTML = '';
 
         if(this.location.length === 0) {
-            resultsDiv.innerHTML = 'No results.';
+            resultsDiv.innerHTML = '<div class="result">No results.</div>';
         } else {
             for(let i = 0; i < this.location.length; i++) {
                 const div = document.createElement('div');
-                div.className = `result-${i}`;
-                div.innerText = `${this.location[i].name}`;
-                div.addEventListener('click', this.selectResult)
+                div.attributes.id = `result-${i}`;
+                div.classList = 'result name';
+
+                if(this.location[i].name.length > 25) {
+                    div.innerText = `${this.location[i].name.slice(0,23)}...`;
+                } else {
+                    div.innerText = `${this.location[i].name}, ${this.location[i].country}`;
+                };
+
+                div.addEventListener('click', this.selectResult);
     
                 resultsDiv.appendChild(div);
             };
         };     
     };
     selectResult = (e) => {
-        let orderOfResult = e.target.classList[0].slice(7);
+        let orderOfResult = e.target.attributes.id.slice(7);
         this.getWeatherData(this.location[orderOfResult].lat, this.location[orderOfResult].lon);
     };
     geocode = (input) => {
@@ -75,25 +82,39 @@ class Weather {
 
         const apiCall = async () => {
             try {
-                const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}`, {mode: 'cors'});
+                const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`, {mode: 'cors'});
                 const weatherData = await response.json();
 
                 this.weatherData = weatherData;
+                this.displayData();
             } catch (error) {
                 console.log(error);
             };
         };
 
         apiCall();
+        console.log(this);
         this.deleteResults();
     };
     deleteResults = () => {
-        const resultsDiv = document.querySelector('#results');
+        const resultsDiv = document.querySelector('.results');
         resultsDiv.innerHTML = '';
         const searchBox = document.querySelector('#search-box');    
         searchBox.value = '';
     }
     displayData = () => {
+        const location = document.querySelector('#location-name');
+        const weather = document.querySelector('#weather-icon');
+        const temperature = document.querySelector('#temperature');
+        const weatherDescription = document.querySelector('#weather-description');
+
+        location.innerText = `${this.weatherData.name.toUpperCase()}`;
+        weather.innerHTML = '';
+        const weatherIcon = document.createElement('img');
+        weatherIcon.src = `http://openweathermap.org/img/wn/${this.weatherData.weather[0].icon}@2x.png`;
+        weather.appendChild(weatherIcon);
+        temperature.innerText = `${Math.round(this.weatherData.main.temp*10)/10}`;
+        weatherDescription.innerText = `${this.weatherData.weather[0].main}`
     };
 };
 
