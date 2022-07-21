@@ -2,6 +2,7 @@ class Weather {
     constructor() {
         this.location = {}
         this.weatherData = {}
+        this.forecast = {}
     }
     initalSetup = () => {
         const obj = this;
@@ -86,6 +87,28 @@ class Weather {
                 const weatherData = await response.json();
 
                 this.weatherData = weatherData;
+                // this.displayData();
+            } catch (error) {
+                console.log(error);
+            };
+        };
+
+        apiCall();
+        this.getForecast(latitude,longitude);
+        console.log(this);
+        this.deleteResults();
+    };
+    getForecast = (lat, lon) => {
+        const latitude = lat;
+        const longitude = lon;
+        const apiKey = 'f8f7a86acb216286bdcaa84ea257f83c';
+
+        const apiCall = async () => {
+            try {
+                const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`, {mode: 'cors'});
+                const forecastData = await response.json();
+
+                this.forecast = forecastData;
                 this.displayData();
             } catch (error) {
                 console.log(error);
@@ -94,7 +117,7 @@ class Weather {
 
         apiCall();
         console.log(this);
-        this.deleteResults();
+        // this.deleteResults();
     };
     deleteResults = () => {
         const resultsDiv = document.querySelector('.results');
@@ -114,7 +137,33 @@ class Weather {
         weatherIcon.src = `https://openweathermap.org/img/wn/${this.weatherData.weather[0].icon}@2x.png`;
         weather.appendChild(weatherIcon);
         temperature.innerText = `${Math.round(this.weatherData.main.temp*10)/10}`;
-        weatherDescription.innerText = `${this.weatherData.weather[0].main}`
+        weatherDescription.innerText = `${this.weatherData.weather[0].main}`;
+
+        let j = 1;
+
+        for(let i = 0; i < this.forecast.list.length; i = i + 8) {
+            const time = document.querySelector(`#time-day-${j}`)
+            const icon = document.querySelector(`#icon-day-${j}`);
+            icon.innerHTML = '';
+            const weatherDescription = document.querySelector(`#temp-day-${j}`);
+            const temp =  document.querySelector(`#desc-day-${j}`);
+
+            time.innerText = `${this.forecast.list[i].dt_txt}`;
+
+            const iconImg = document.createElement('img');
+            iconImg.src = `https://openweathermap.org/img/wn/${this.forecast.list[i].weather[0].icon}@2x.png`;
+            icon.appendChild(iconImg);
+
+            temp.innerText = `${Math.round(this.forecast.list[i].main.temp*10)/10}`;
+            weatherDescription.innerText = `${this.forecast.list[i].weather[0].main}`;
+
+
+            // const icon = this.forecast.list[i].weather[0].icon;
+            // const weatherDescription = this.forecast.list[i].weather[0].main;
+            // const temp =  this.forecast.list[i].main.temp;
+
+            j++;
+        }
     };
 };
 
