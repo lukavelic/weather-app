@@ -63,7 +63,7 @@ class Weather {
 
         const apiCall = async (query) => {
             try {
-                const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=${resultLimit}&appid=${apiKey}`, {mode: 'cors'});
+                const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=${resultLimit}&appid=${apiKey}`, {mode: 'cors'});
                 const location = await response.json();
                 this.location = location;
                 
@@ -111,7 +111,7 @@ class Weather {
         location.innerText = `${this.weatherData.name.toUpperCase()}`;
         weather.innerHTML = '';
         const weatherIcon = document.createElement('img');
-        weatherIcon.src = `http://openweathermap.org/img/wn/${this.weatherData.weather[0].icon}@2x.png`;
+        weatherIcon.src = `https://openweathermap.org/img/wn/${this.weatherData.weather[0].icon}@2x.png`;
         weather.appendChild(weatherIcon);
         temperature.innerText = `${Math.round(this.weatherData.main.temp*10)/10}`;
         weatherDescription.innerText = `${this.weatherData.weather[0].main}`
